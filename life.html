@@ -9,18 +9,117 @@
 	<title>Simulação de Seres Vivos</title>
 
  <style>
+ 	#panel{
+ 		display: block;
+ 		float: left;
+ 	}
 		#neuralInfo {
+
+			width: 185px;
 			padding: 10px;
 			margin-bottom: 25px;
 			background-color: #f0f0f0;
 			border: 1px solid #ccc;
 			overflow-y: scroll;
+		
+			display: block;
+		}
+		#parameters{
+			width: 185px;
+			padding: 10px;
+			margin-bottom: 25px;
+			background-color: #f0f0f0;
+			border: 1px solid #ccc;
+			overflow-y: scroll;
+			display: block;
+			height: 504px;
+		
+		}
+		#parameters > input{
+			width: 170px;
+			display: block;
+		}
+		main{
 			position: relative;
-			float: left;
+			float: right;
 		}
 	</style>
 </head>
 <body>
+	<div id=panel>
 	<div id="neuralInfo"></div>
+	<div id="parameters"><label for="childEnergy">childEnergy</label>
+<input type="number" id="childEnergy" value = 100 onchange="childEnergy = this.value">
+
+<label for="foodEnergy">foodEnergy</label>
+<input type="number" id="foodEnergy" value = 90 onchange="foodEnergy = this.value">
+
+<label for="baseSpeed">baseSpeed</label>
+<input type="number" id="baseSpeed" value=6.5 step="0.1" onchange="baseSpeed = this.value">
+
+<label for="mutationRate">mutationRate</label>
+<input type="number" id="mutationRate" value = 0.05 step=0.001 onchange="mutationRate = this.value">
+
+<label for="dangerZone">dangerZone</label>
+<input type="number" id="dangerZone" value=30 onchange="dangerZone = this.value">
+
+<label for="individualLifetime">individualLifetime</label>
+<input type="number" id="individualLifetime" value = 1500 onchange="individualLifetime = this.value">
+
+<label for="beingSize">beingSize</label>
+<input type="number" id="beingSize" value = 20 onchange="beingSize = this.value">
+
+
+<label for="showAnimation">showAnimation</label>
+<input type="checkbox" id="showAnimation" checked onclick="showAnimation = this.checked">
+
+<label for="showStatistics">showStatistics</label>
+<input type="checkbox" id="showStatistics" checked onclick="showStatistics = this.checked">
+
+<label for="showLines">showLines</label>
+<input type="checkbox" id="showLines"  onclick="showLines = this.checked">
+
+
+
+<label for="autosave">autosave</label>
+<input type="checkbox" id="autosave" checked onclick="autosave = this.checked">
+
+<label for="autoload">autoload</label>
+<input type="checkbox" id="autoload" checked onclick="autoload = this.checked">
+
+
+<label for="autoSeasonFood">autoSeasonFood</label>
+<input type="checkbox" id="autoSeasonFood" checked onclick="autoSeasonFood = this.checked">
+
+<label for="foodSize">foodSize</label>
+<input type="number" id="foodSize" value=200 onchange="foodSize = this.value">
+
+<label for="intervalChangeFood">intervalChangeFood</label>
+<input type="number" id="intervalChangeFood" value=100000 onchange="intervalChangeFood = this.value">
+
+<label for="minimumFood">minimumFood</label>
+<input type="number" id="minimumFood" value = 100 onchange="minimumFood = this.value">
+
+<label for="minimumPopulationStarvation">minimumPopulationStarvation</label>
+<input type="number" id="minimumPopulationStarvation" value = 10 onchange="minimumPopulationStarvation = this.value">
+
+<label for="resetFood">resetFood</label>
+<input type="number" id="resetFood" value = 200 onchange="resetFood = this.value">
+
+<label for="foodLifeIncrease">foodLifeIncrease</label>
+<input type="number" id="foodLifeIncrease" value = 20 onchange="foodLifeIncrease = this.value">
+
+
+<label for="generateRandomPopulation">generateRandomPopulation</label>
+<input type="checkbox" id="generateRandomPopulation" onclick="generateRandomPopulation = this.checked">
+
+<label for="randomGenerationRate">randomGenerationRate</label>
+<input type="number" id="randomGenerationRate" value= 100 onchange="randomGenerationRate = this.value">
+
+<label for="population">population</label>
+<textarea id="population" onchange="localStorage.setItem('loadPopulation',this.value);getSavedData('loadPopulation')"></textarea>
+
+</div>
+</div>
 </body>
 </html>

@@ -77,8 +77,8 @@ class LivingBeing {
 		this.id=id;
 		this.x = random(width);
 		this.y = random(height);
-		this.size = 15;
-		this.energy = 500;
+		this.size = beingSize;
+		this.energy = inicialEnergy;
 		this.brain = new Brain(inputLayers, hiddenLayers, outputLayers,id); 
 		this.challenger=null
 		this.time = 0;
@@ -110,9 +110,11 @@ class LivingBeing {
 
 		this.inputs = this.calculateInputs();
 		this.outputs = this.brain.predict(this.inputs);
-
-
-		const speed = this.outputs[0]*baseSpeed;
+		let speed = this.outputs[0]*baseSpeed;
+		if (this.brain.booleanOutput(this.outputs[3])) {
+			speed = this.outputs[0]*baseSpeed*jumpSize;
+			this.energy -= jumpSize;
+		}
 		const direction = this.outputs[1];
 
 		if (this.challenge && this.brain.booleanOutput(this.outputs[2])) {
@@ -131,7 +133,7 @@ class LivingBeing {
 		}
 
 
-		if (this.energy>=inicialEnergy*2 && this.brain.booleanOutput(this.outputs[3]) ) {
+		if (this.energy>=inicialEnergy*2) {
 			countSelfReplication++;
 			countReproduction--;
 			this.reproduce(this);
@@ -151,12 +153,22 @@ class LivingBeing {
 		this.challenger=neighbor;
 	}
 	display() {
-		if (this.time<=300) {
+		if (this.time<=individualLifetime/10) {
 			stroke(0,0,0);	
+		}else if(this.time > individualLifetime-(individualLifetime/10)){
+			stroke(255,0,0);
 		}
 		fill(this.color.r,this.color.g,this.color.b);
 		ellipse(this.x, this.y, random((1-this.energy/inicialEnergy)*this.size,this.size*(1+this.energy/inicialEnergy)), random((1-this.energy/inicialEnergy)*this.size,this.size*(1+this.energy/inicialEnergy)));
 		noStroke();
+
+
+		const lifePercentage = int(((individualLifetime-this.time) / individualLifetime) * 10);
+
+        // Desenha o número no centro do círculo
+        fill(0);
+        textAlign(CENTER, CENTER);
+        text(`${lifePercentage}`, this.x, this.y);
 		
 	}
 
@@ -201,7 +213,7 @@ class LivingBeing {
 
 			if (distance<= this.size) {
 				this.energy+= nearFood.energy;
-				this.time-=10;
+				this.time-=foodLifeIncrease;
 				nearFood.kill();
 				//continue;
 			}
@@ -262,7 +274,7 @@ class LivingBeing {
 
 			// Cria um novo ser vivo como descendente
 			const child = new LivingBeing(incrementPopulation++);
-			child.energy = inicialEnergy/2;
+			child.energy = childEnergy;
 			// Herda características dos pais (pode ajustar conforme necessário)
 			child.x = (this.x + partner.x) / 2;
 			child.y = (this.y + partner.y) / 2;
@@ -320,6 +332,21 @@ class LivingBeing {
 	}
 
 	mutate(value) {
+
+		const normColor = (being) =>{
+			const minmax = (value) =>{
+				if(value > 255){
+					return 0;
+				}else if(value<0){
+					return 255;
+				}else{
+					return value;
+				}
+			}	
+			being.color.r = minmax(being.color.r);
+			being.color.g = minmax(being.color.g);
+			being.color.b = minmax(being.color.b);
+		}
 		// Adicionar uma pequena alteração aleatória com base na taxa de mutação
 		if (random() < mutationRate) {
 				const mutationAmount = random(-mutationRate, mutationRate); // Ajuste conforme necessário
@@ -327,6 +354,7 @@ class LivingBeing {
 				this.color.r+=random(-2,2);
 				this.color.g+=random(-2,2);
 				this.color.b+=random(-2,2);
+				normColor(this);
 				value += mutationAmount;
 		}
 		return value;
@@ -355,8 +383,8 @@ class Food {
 
 	update(){
 		this.energy++;
-		//this.x += this.speed*Math.sin(this.direction*360);
-		//this.y += this.speed*Math.cos(this.direction*360);
+		this.x += this.speed*Math.sin(this.direction*360);
+		this.y += this.speed*Math.cos(this.direction*360);
 
 		if (this.x>=width || this.y>=height || this.y<=0 || this.x<=0) {
 			if(this.y<=0 || this.x<=0){
@@ -385,45 +413,48 @@ var inputLayers=12;
 var hiddenLayers=16;
 var outputLayers=4;
 
-var populationSize = 1000;
-var inicialEnergy = 500;
-var foodEnergy = 100;
-var baseSpeed=5;
-var mutationRate = 0.05;
-var dangerZone=30;
-var individualLifetime = 1000;
 var booleanTreshold = 0.5;
 
-var showAnimation = true;
-var showStatistics = true;
-var showLines = false;
+var generateInitialPopulation = true;
+var populationSize = 1000;
+var inicialEnergy = 500;
 
 var countKills=0;
 var countSelfReplication=0;
 var countReproduction =0;
 
+var childEnergy = 100;
+var foodEnergy = 10;
+var baseSpeed=6.5;
+var mutationRate = 0.05;
+var dangerZone=0;
+var individualLifetime = 30000;
+var beingSize = 20;
+
+var showAnimation = true;
+var showStatistics = true;
+var showLines = false;
+
+
 var autosave=true;
-var autoload=true;
+var autoload=false;
 
 var autoSeasonFood=true;
-var intervalChangeFood=300000;
-var minimumFood = 55;
+var foodSize=200;
+var intervalChangeFood=100000;
+var minimumFood = 100;
 var minimumPopulationStarvation = 10;
-var resetFood = 75;
+var resetFood = 200;
+var foodLifeIncrease = 0;
+var jumpSize = 10;
 
-var generateRandomPopulation = false;
-var generateInitialPopulation = true;
+var generateRandomPopulation = true;
 var randomGenerationRate= 100; //menor valor aumenta frequencia
 
 function setup() {
-	createCanvas(2000, 2000);
+	createCanvas(windowWidth-245, windowHeight-20);
 	if (localStorage.getItem('auto')!=null && autoload) {
 		getSavedData('auto');
-		setInterval(function(){ 
-			if (population.length>=20 && autosave) {
-				localStorage.setItem('auto',JSON.stringify(population)); 
-			}
-		},30000);
 
 
 	}else{
@@ -438,16 +469,21 @@ function setup() {
 			}
 		}
 	}
+	setInterval(function(){ 
+		if (population.length>=20 && autosave) {
+			localStorage.setItem('auto',JSON.stringify(population)); 
+		}
+	},30000);
 	setInterval(function(){
 		if(autoSeasonFood){
-			if (populationSize<minimumFood || population.length<minimumPopulationStarvation) {
-				populationSize=resetFood;
+			if (foodSize<minimumFood || population.length<minimumPopulationStarvation) {
+				foodSize=resetFood;
 			}
 		}
 	},intervalChangeFood/20);
 	setInterval(function(){
 		if(autoSeasonFood){
-			populationSize--;
+			foodSize--;
 		}
 	},intervalChangeFood);
 }
@@ -479,7 +515,7 @@ function draw() {
 			food[i].display();
 		}
 	}
-	if (food.length<populationSize*2) {
+	if (food.length<foodSize) {
 		food.push(new Food(incrementFood++));
 	}
 	if (iteration%(Math.ceil(random()*randomGenerationRate))===0 && generateRandomPopulation) {

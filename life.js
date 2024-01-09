@@ -101,7 +101,6 @@ class LivingBeing {
 
 	update() {
 
-		this.energy-=0.1;
 		this.time++;
 
 		if (this.time>individualLifetime) {
@@ -113,7 +112,7 @@ class LivingBeing {
 		let speed = this.outputs[0]*baseSpeed;
 		if (this.brain.booleanOutput(this.outputs[3])) {
 			speed = this.outputs[0]*baseSpeed*jumpSize;
-			this.energy -= jumpSize;
+			this.energy -= jumpSize/100;
 		}
 		const direction = this.outputs[1];
 
@@ -138,6 +137,8 @@ class LivingBeing {
 			countReproduction--;
 			this.reproduce(this);
 		}
+
+		this.energy-=(this.outputs[0]/5);
 
 		this.x += speed*Math.sin(direction*360);
 		this.y += speed*Math.cos(direction*360);

@@ -112,7 +112,7 @@ class LivingBeing {
 		let speed = this.outputs[0]*baseSpeed;
 		if (this.brain.booleanOutput(this.outputs[3])) {
 			speed = this.outputs[0]*baseSpeed*jumpSize;
-			this.energy -= jumpSize/100;
+			this.energy -= jumpSize/10;
 		}
 		const direction = this.outputs[1];
 

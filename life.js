@@ -531,6 +531,8 @@ function draw() {
 	if (showAnimation || showStatistics) {
 		displayNeuralInfo();
 	}
+
+	showParameters();
 }
 
 function displayNeuralInfo() {
@@ -786,7 +788,9 @@ function initParameters(){
 	if(localStorage.randomGenerationRate !== undefined) {
 		randomGenerationRate=localStorage.getItem('randomGenerationRate');
 	}
+}
 
+function showParameters(){
 	document.getElementById('generateInitialPopulation').checked=generateInitialPopulation;
 	document.getElementById('populationSize').value=populationSize;
 	document.getElementById('inicialEnergy').value=inicialEnergy;
@@ -814,5 +818,4 @@ function initParameters(){
 	document.getElementById('reproduceWithNonSimilar').checked=reproduceWithNonSimilar;
 	document.getElementById('generateRandomPopulation').checked=generateRandomPopulation;
 	document.getElementById('randomGenerationRate').value=randomGenerationRate;
-
 }

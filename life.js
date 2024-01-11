@@ -536,7 +536,7 @@ function draw() {
 }
 
 function displayNeuralInfo() {
-	const neuralInfoDiv = documents.getElementById('neuralInfo');
+	const neuralInfoDiv = document.getElementById('neuralInfo');
 	let html = '';
 
 	// html+= '<table border=1>';

@@ -456,6 +456,8 @@ var randomGenerationRate= 100; //menor valor aumenta frequencia
 function setup() {
 
 	initParameters();
+	showParameters();
+	
 	createCanvas(windowWidth-245, windowHeight-20);
 	if (localStorage.getItem('auto')!=null && autoload) {
 		getSavedData('auto');
@@ -532,7 +534,6 @@ function draw() {
 		displayNeuralInfo();
 	}
 
-	showParameters();
 }
 
 function displayNeuralInfo() {

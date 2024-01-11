@@ -178,10 +178,10 @@ class LivingBeing {
 		inputs.push(this.x/width,this.y/height,this.energy/inicialEnergy,this.time/individualLifetime);
 		let neighbor = this.closestNeighbor();
 		if (neighbor!==null) {
-			let comparison=calculateSimilarity(this.brain,neighbor.brain);
+			let similar=calculateSimilarity(this.brain,neighbor.brain);
 			let distance = dist(this.x, this.y, neighbor.x, neighbor.y);
 			let direction = atan2(neighbor.y - this.y, neighbor.x - this.x) / PI;
-			let similar = comparison.isSimilar?1:0;
+			
 
 			if (showAnimation && showLines) {
 				stroke(0,0,255);
@@ -189,7 +189,7 @@ class LivingBeing {
 				noStroke();
 			}
 			if (distance<= this.size) {
-				if (comparison.isSimilar) {
+				if (similar || reproduceWithNonSimilar) {
 					if(!this.reproduce(neighbor)){
 						this.engage(neighbor);
 					}
@@ -414,16 +414,17 @@ var inputLayers=12;
 var hiddenLayers=16;
 var outputLayers=4;
 
-var booleanTreshold = 0.5;
-
-var generateInitialPopulation = true;
-var populationSize = 1000;
-var inicialEnergy = 500;
 
 var countKills=0;
 var countSelfReplication=0;
 var countReproduction =0;
 
+var generateInitialPopulation = true;
+var populationSize = 1000;
+var inicialEnergy = 500;
+
+
+var booleanTreshold = 0.5;
 var childEnergy = 100;
 var foodEnergy = 10;
 var baseSpeed=6.5;
@@ -448,11 +449,13 @@ var minimumPopulationStarvation = 10;
 var resetFood = 200;
 var foodLifeIncrease = 0;
 var jumpSize = 10;
-
+var reproduceWithNonSimilar=true;
 var generateRandomPopulation = true;
 var randomGenerationRate= 100; //menor valor aumenta frequencia
 
 function setup() {
+
+	initParameters();
 	createCanvas(windowWidth-245, windowHeight-20);
 	if (localStorage.getItem('auto')!=null && autoload) {
 		getSavedData('auto');
@@ -621,6 +624,9 @@ getMoreFood = function(){
 }
 
 function calculateSimilarity(neuralNetworkA, neuralNetworkB) {
+	if (reproduceWithNonSimilar) {
+		return true;
+	}
 	const similarityThreshold = 0.8; // Ajuste conforme necessário
 
 	// Extrair os pesos e biases das conexões de cada camada
@@ -648,13 +654,7 @@ function calculateSimilarity(neuralNetworkA, neuralNetworkB) {
 	// Verificar se a média da taxa de semelhança atende ao limiar
 	const isSimilar = averageSimilarity >= similarityThreshold;
 
-	return {
-		similarityInputLayer,
-		similarityHiddenLayer,
-		similarityOutputLayer,
-		averageSimilarity,
-		isSimilar,
-	};
+	return isSimilar;
 }
 
 // Função para calcular a diferença absoluta média entre dois conjuntos de pesos e biases
@@ -672,3 +672,199 @@ function calculateMAD(weightsAndBiasesA, weightsAndBiasesB) {
 	return mad;
 }
 
+function initParameters(){
+	if(localStorage.generateInitialPopulation !== undefined) {
+		generateInitialPopulation=localStorage.getItem('generateInitialPopulation');
+		document.getElementById('generateInitialPopulation').checked=generateInitialPopulation;
+	}else{
+		generateInitialPopulation = true;
+	}
+
+	if(localStorage.populationSize !== undefined) {
+		populationSize=localStorage.getItem('populationSize');
+		document.getElementById('populationSize').value=populationSize;
+	}else{
+		populationSize = 1000;
+	}
+
+	if(localStorage.inicialEnergy !== undefined) {
+		inicialEnergy=localStorage.getItem('inicialEnergy');
+		document.getElementById('inicialEnergy').value=inicialEnergy;
+	}else{
+		inicialEnergy = 500;
+	}
+
+
+
+	if(localStorage.booleanTreshold !== undefined) {
+		booleanTreshold=localStorage.getItem('booleanTreshold');
+		document.getElementById('booleanTreshold').value=booleanTreshold;
+	}else{
+		booleanTreshold = 0.5;
+	}
+
+	if(localStorage.childEnergy !== undefined) {
+		childEnergy=localStorage.getItem('childEnergy');
+		document.getElementById('childEnergy').value=childEnergy;
+	}else{
+		childEnergy = 100;
+	}
+
+	if(localStorage.foodEnergy !== undefined) {
+		foodEnergy=localStorage.getItem('foodEnergy');
+		document.getElementById('foodEnergy').value=foodEnergy;
+	}else{
+		foodEnergy = 10;
+	}
+
+	if(localStorage.baseSpeed !== undefined) {
+		baseSpeed=localStorage.getItem('baseSpeed');
+		document.getElementById('baseSpeed').value=baseSpeed;
+	}else{
+		baseSpeed=6.5;
+	}
+
+	if(localStorage.mutationRate !== undefined) {
+		mutationRate=localStorage.getItem('mutationRate');
+		document.getElementById('mutationRate').value=mutationRate;
+	}else{
+		mutationRate = 0.05;
+	}
+
+	if(localStorage.dangerZone !== undefined) {
+		dangerZone=localStorage.getItem('dangerZone');
+		document.getElementById('dangerZone').value=dangerZone;
+	}else{
+		dangerZone=0;
+	}
+
+	if(localStorage.individualLifetime !== undefined) {
+		individualLifetime=localStorage.getItem('individualLifetime');
+		document.getElementById('individualLifetime').value=individualLifetime;
+	}else{
+		individualLifetime = 30000;
+	}
+
+	if(localStorage.beingSize !== undefined) {
+		beingSize=localStorage.getItem('beingSize');
+		document.getElementById('beingSize').value=beingSize;
+	}else{
+		beingSize = 20;
+	}
+
+
+	if(localStorage.showAnimation !== undefined) {
+		showAnimation=localStorage.getItem('showAnimation');
+		document.getElementById('showAnimation').checked=showAnimation;
+	}else{
+		showAnimation = true;
+	}
+
+	if(localStorage.showStatistics !== undefined) {
+		showStatistics=localStorage.getItem('showStatistics');
+		document.getElementById('showStatistics').checked=showStatistics;
+	}else{
+		showStatistics = true;
+	}
+
+	if(localStorage.showLines !== undefined) {
+		showLines=localStorage.getItem('showLines');
+		document.getElementById('showLines').checked=showLines;
+	}else{
+		showLines = false;
+	}
+
+
+
+	if(localStorage.autosave !== undefined) {
+		autosave=localStorage.getItem('autosave');
+		document.getElementById('autosave').checked=autosave;
+	}else{
+		autosave=true;
+	}
+
+	if(localStorage.autoload !== undefined) {
+		autoload=localStorage.getItem('autoload');
+		document.getElementById('autoload').checked=autoload;
+	}else{
+		autoload=false;
+	}
+
+
+	if(localStorage.autoSeasonFood !== undefined) {
+		autoSeasonFood=localStorage.getItem('autoSeasonFood');
+		document.getElementById('autoSeasonFood').checked=autoSeasonFood;
+	}else{
+		autoSeasonFood=true;
+	}
+
+	if(localStorage.foodSize !== undefined) {
+		foodSize=localStorage.getItem('foodSize');
+		document.getElementById('foodSize').value=foodSize;
+	}else{
+		foodSize=200;
+	}
+
+	if(localStorage.intervalChangeFood !== undefined) {
+		intervalChangeFood=localStorage.getItem('intervalChangeFood');
+		document.getElementById('intervalChangeFood').value=intervalChangeFood;
+	}else{
+		intervalChangeFood=100000;
+	}
+
+	if(localStorage.minimumFood !== undefined) {
+		minimumFood=localStorage.getItem('minimumFood');
+		document.getElementById('minimumFood').value=minimumFood;
+	}else{
+		minimumFood = 100;
+	}
+
+	if(localStorage.minimumPopulationStarvation !== undefined) {
+		minimumPopulationStarvation=localStorage.getItem('minimumPopulationStarvation');
+		document.getElementById('minimumPopulationStarvation').value=minimumPopulationStarvation;
+	}else{
+		minimumPopulationStarvation = 10;
+	}
+
+	if(localStorage.resetFood !== undefined) {
+		resetFood=localStorage.getItem('resetFood');
+		document.getElementById('resetFood').value=resetFood;
+	}else{
+		resetFood = 200;
+	}
+
+	if(localStorage.foodLifeIncrease !== undefined) {
+		foodLifeIncrease=localStorage.getItem('foodLifeIncrease');
+		document.getElementById('foodLifeIncrease').value=foodLifeIncrease;
+	}else{
+		foodLifeIncrease = 0;
+	}
+
+	if(localStorage.jumpSize !== undefined) {
+		jumpSize=localStorage.getItem('jumpSize');
+		document.getElementById('jumpSize').value=jumpSize;
+	}else{
+		jumpSize = 10;
+	}
+
+	if(localStorage.reproduceWithNonSimilar !== undefined) {
+		reproduceWithNonSimilar=localStorage.getItem('reproduceWithNonSimilar');
+		document.getElementById('reproduceWithNonSimilar').checked=reproduceWithNonSimilar;
+	}else{
+		reproduceWithNonSimilar=true;
+	}
+
+	if(localStorage.generateRandomPopulation !== undefined) {
+		generateRandomPopulation=localStorage.getItem('generateRandomPopulation');
+		document.getElementById('generateRandomPopulation').checked=generateRandomPopulation;
+	}else{
+		generateRandomPopulation = true;
+	}
+
+	if(localStorage.randomGenerationRate !== undefined) {
+		randomGenerationRate=localStorage.getItem('randomGenerationRate');
+		document.getElementById('randomGenerationRate').value=randomGenerationRate;
+	}else{
+		randomGenerationRate= 100;
+	}
+}

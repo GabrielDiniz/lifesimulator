@@ -48,7 +48,18 @@
 <body>
 	<div id=panel>
 	<div id="neuralInfo"></div>
-	<div id="parameters"><label for="childEnergy">childEnergy</label>
+	<div id="parameters">
+
+<label for="populationSize">populationSize</label>
+<input type="number" id="populationSize" onchange="populationSize = this.value;localStorage.setItem('populationSize',this.value);">
+
+<label for="inicialEnergy">inicialEnergy</label>
+<input type="number" id="inicialEnergy" onchange="inicialEnergy = this.value;localStorage.setItem('inicialEnergy',this.value);">
+
+<label for="booleanTreshold">booleanTreshold</label>
+<input type="number" id="booleanTreshold" onchange="booleanTreshold = this.value;localStorage.setItem('booleanTreshold',this.value);">
+
+<label for="childEnergy">childEnergy</label>
 <input type="number" id="childEnergy" onchange="childEnergy = this.value;localStorage.setItem('childEnergy',this.value);">
 
 <label for="foodEnergy">foodEnergy</label>

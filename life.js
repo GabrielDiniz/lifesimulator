@@ -677,117 +677,171 @@ function calculateMAD(weightsAndBiasesA, weightsAndBiasesB) {
 
 function initParameters(){
 	if(localStorage.generateInitialPopulation !== undefined) {
-		generateInitialPopulation=localStorage.getItem('generateInitialPopulation');
+		generateInitialPopulation=JSON.parse(localStorage.getItem('generateInitialPopulation'));
+	}else{
+		localStorage.setItem('generateInitialPopulation',generateInitialPopulation);
 	}
 
 	if(localStorage.populationSize !== undefined) {
-		populationSize=localStorage.getItem('populationSize');
+		populationSize=JSON.parse(localStorage.getItem('populationSize'));
+	}else{
+		localStorage.setItem('populationSize',populationSize);
 	}
 
 	if(localStorage.inicialEnergy !== undefined) {
-		inicialEnergy=localStorage.getItem('inicialEnergy');
+		inicialEnergy=JSON.parse(localStorage.getItem('inicialEnergy'));
+	}else{
+		localStorage.setItem('inicialEnergy',inicialEnergy);
 	}
 
 
 
 	if(localStorage.booleanTreshold !== undefined) {
-		booleanTreshold=localStorage.getItem('booleanTreshold');
+		booleanTreshold=JSON.parse(localStorage.getItem('booleanTreshold'));
+	}else{
+		localStorage.setItem('booleanTreshold',booleanTreshold);
 	}
 
 	if(localStorage.childEnergy !== undefined) {
-		childEnergy=localStorage.getItem('childEnergy');
+		childEnergy=JSON.parse(localStorage.getItem('childEnergy'));
+	}else{
+		localStorage.setItem('childEnergy',childEnergy);
 	}
 
 	if(localStorage.foodEnergy !== undefined) {
-		foodEnergy=localStorage.getItem('foodEnergy');
+		foodEnergy=JSON.parse(localStorage.getItem('foodEnergy'));
+	}else{
+		localStorage.setItem('foodEnergy',foodEnergy);
 	}
 
 	if(localStorage.baseSpeed !== undefined) {
-		baseSpeed=localStorage.getItem('baseSpeed');
+		baseSpeed=JSON.parse(localStorage.getItem('baseSpeed'));
+	}else{
+		localStorage.setItem('baseSpeed',baseSpeed);
 	}
 
 	if(localStorage.mutationRate !== undefined) {
-		mutationRate=localStorage.getItem('mutationRate');
+		mutationRate=JSON.parse(localStorage.getItem('mutationRate'));
+	}else{
+		localStorage.setItem('mutationRate',mutationRate);
 	}
 
 	if(localStorage.dangerZone !== undefined) {
-		dangerZone=localStorage.getItem('dangerZone');
+		dangerZone=JSON.parse(localStorage.getItem('dangerZone'));
+	}else{
+		localStorage.setItem('dangerZone',dangerZone);
 	}
 
 	if(localStorage.individualLifetime !== undefined) {
-		individualLifetime=localStorage.getItem('individualLifetime');
+		individualLifetime=JSON.parse(localStorage.getItem('individualLifetime'));
+	}else{
+		localStorage.setItem('individualLifetime',individualLifetime);
 	}
 
 	if(localStorage.beingSize !== undefined) {
-		beingSize=localStorage.getItem('beingSize');
+		beingSize=JSON.parse(localStorage.getItem('beingSize'));
+	}else{
+		localStorage.setItem('beingSize',beingSize);
 	}
 
 
 	if(localStorage.showAnimation !== undefined) {
-		showAnimation=localStorage.getItem('showAnimation');
+		showAnimation=JSON.parse(localStorage.getItem('showAnimation'));
+	}else{
+		localStorage.setItem('showAnimation',showAnimation);
 	}
 
 	if(localStorage.showStatistics !== undefined) {
-		showStatistics=localStorage.getItem('showStatistics');
+		showStatistics=JSON.parse(localStorage.getItem('showStatistics'));
+	}else{
+		localStorage.setItem('showStatistics',showStatistics);
 	}
 
 	if(localStorage.showLines !== undefined) {
-		showLines=localStorage.getItem('showLines');
+		showLines=JSON.parse(localStorage.getItem('showLines'));
+	}else{
+		localStorage.setItem('showLines',showLines);
 	}
 
 
 
 	if(localStorage.autosave !== undefined) {
-		autosave=localStorage.getItem('autosave');
+		autosave=JSON.parse(localStorage.getItem('autosave'));
+	}else{
+		localStorage.setItem('autosave',autosave);
 	}
 
 	if(localStorage.autoload !== undefined) {
-		autoload=localStorage.getItem('autoload');
+		autoload=JSON.parse(localStorage.getItem('autoload'));
+	}else{
+		localStorage.setItem('autoload',autoload);
 	}
 
 
 	if(localStorage.autoSeasonFood !== undefined) {
-		autoSeasonFood=localStorage.getItem('autoSeasonFood');
+		autoSeasonFood=JSON.parse(localStorage.getItem('autoSeasonFood'));
+	}else{
+		localStorage.setItem('autoSeasonFood',autoSeasonFood);
 	}
 
 	if(localStorage.foodSize !== undefined) {
-		foodSize=localStorage.getItem('foodSize');
+		foodSize=JSON.parse(localStorage.getItem('foodSize'));
+	}else{
+		localStorage.setItem('foodSize',foodSize);
 	}
 
 	if(localStorage.intervalChangeFood !== undefined) {
-		intervalChangeFood=localStorage.getItem('intervalChangeFood');
+		intervalChangeFood=JSON.parse(localStorage.getItem('intervalChangeFood'));
+	}else{
+		localStorage.setItem('intervalChangeFood',intervalChangeFood);
 	}
 
 	if(localStorage.minimumFood !== undefined) {
-		minimumFood=localStorage.getItem('minimumFood');
+		minimumFood=JSON.parse(localStorage.getItem('minimumFood'));
+	}else{
+		localStorage.setItem('minimumFood',minimumFood);
 	}
 
 	if(localStorage.minimumPopulationStarvation !== undefined) {
-		minimumPopulationStarvation=localStorage.getItem('minimumPopulationStarvation');
+		minimumPopulationStarvation=JSON.parse(localStorage.getItem('minimumPopulationStarvation'));
+	}else{
+		localStorage.setItem('minimumPopulationStarvation',minimumPopulationStarvation);
 	}
 
 	if(localStorage.resetFood !== undefined) {
-		resetFood=localStorage.getItem('resetFood');
+		resetFood=JSON.parse(localStorage.getItem('resetFood'));
+	}else{
+		localStorage.setItem('resetFood',resetFood);
 	}
 
 	if(localStorage.foodLifeIncrease !== undefined) {
-		foodLifeIncrease=localStorage.getItem('foodLifeIncrease');
+		foodLifeIncrease=JSON.parse(localStorage.getItem('foodLifeIncrease'));
+	}else{
+		localStorage.setItem('foodLifeIncrease',foodLifeIncrease);
 	}
 
 	if(localStorage.jumpSize !== undefined) {
-		jumpSize=localStorage.getItem('jumpSize');
+		jumpSize=JSON.parse(localStorage.getItem('jumpSize'));
+	}else{
+		localStorage.setItem('jumpSize',jumpSize);
 	}
 
 	if(localStorage.reproduceWithNonSimilar !== undefined) {
-		reproduceWithNonSimilar=localStorage.getItem('reproduceWithNonSimilar');
+		reproduceWithNonSimilar=JSON.parse(localStorage.getItem('reproduceWithNonSimilar'));
+	}else{
+		localStorage.setItem('reproduceWithNonSimilar',reproduceWithNonSimilar);
 	}
 
 	if(localStorage.generateRandomPopulation !== undefined) {
-		generateRandomPopulation=localStorage.getItem('generateRandomPopulation');
+		generateRandomPopulation=JSON.parse(localStorage.getItem('generateRandomPopulation'));
+	}else{
+		localStorage.setItem('generateRandomPopulation',generateRandomPopulation);
 	}
 
 	if(localStorage.randomGenerationRate !== undefined) {
-		randomGenerationRate=localStorage.getItem('randomGenerationRate');
+		randomGenerationRate=JSON.parse(localStorage.getItem('randomGenerationRate'));
+	}else{
+		localStorage.setItem('randomGenerationRate',randomGenerationRate);
 	}
 }
 
